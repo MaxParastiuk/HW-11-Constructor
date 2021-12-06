@@ -1,78 +1,69 @@
-class Hamburger {
-    static SIZE_SMALL = {
-        price: 50,
-        cal: 20
-    };
-    static SIZE_MIDDLE = {
-        price: 75,
-        cal: 30
-    }
-    static SIZE_LARGE = {
-        price: 100,
-        cal: 40
-    };
-    static STUFFING_CHEESE = {
-        price: 10,
-        cal: 20
-    };
-    static STUFFING_SALAD = {
-        price: 20,
-        cal: 5
-    };
-    static STUFFING_POTATO = {
-        price: 15,
-        cal: 10
-    };
-    static TOPPING_MAYO = {
-        price: 15,
-        cal: 10
-    };
-    static TOPPING_SPICE = {
-        price: 15,
-        cal: 10
-    }
+const SIZE_SMALL = {
+    price: 50,
+    cal: 20
+};
+const SIZE_MIDDLE = {
+    price: 75,
+    cal: 30
+}
+const SIZE_LARGE = {
+    price: 100,
+    cal: 40
+};
+const STUFFING_CHEESE = {
+    price: 10,
+    cal: 20
+};
+const STUFFING_SALAD = {
+    price: 20,
+    cal: 5
+};
+const STUFFING_POTATO = {
+    price: 15,
+    cal: 10
+};
+const TOPPING_MAYO = {
+    price: 15,
+    cal: 10
+};
+const TOPPING_SPICE = {
+    price: 15,
+    cal: 10
+}
 
-    constructor(size, stuffing) {
-        this.size = size;
-        this.stuffings = [stuffing];
-    }
+function Hamburger(size) {
+    this.size = size;
+    this.stuffings = [];
 
-    addStuffing(stuffing) {
+
+    this.addModifier = function (stuffing) {
         return this.stuffings.push(stuffing);
     }
 
-    calculateCal() {
+    this.calculateCal = function () {
         const sum1 = this.size.cal;
-        const sum2 = this.getSum(this.stuffings, "cal")
+        const sum2 = this.getProperty(this.stuffings, "cal")
         return sum1 + sum2 + " кал";
     }
 
-    calculatePrice() {
+    this.calculatePrice = function () {
         const sum1 = this.size.price;
-        const sum2 = this.getSum(this.stuffings, "price");
+        const sum2 = this.getProperty(this.stuffings, "price");
         return sum1 + sum2 + " тугр";
     }
 
-    getSum(arr, prop) {
-        if (arr.length > 0) {
-            let sum = 0;
-            arr.forEach((item) => {
-                for (let key in item) {
-                    if (key === prop) {
-                        sum += item[key];
-                    }
-                }
-            });
-            return sum;
-        }
+    this.getProperty = function (arr, prop) {
+        return arr.reduce((sum, stuff) => {
+            return sum + stuff[prop];
+        }, 0)
     }
 }
 
-const hamburger = new Hamburger(Hamburger.SIZE_LARGE, Hamburger.STUFFING_CHEESE);
-hamburger.addStuffing(Hamburger.STUFFING_POTATO);
+const hamburger = new Hamburger(SIZE_LARGE);
+hamburger.addModifier(STUFFING_POTATO);
 console.log(hamburger.calculatePrice());
 console.log(hamburger.calculateCal());
-hamburger.addStuffing(Hamburger.STUFFING_POTATO);
+hamburger.addModifier(STUFFING_POTATO);
 console.log(hamburger.calculatePrice());
 console.log(hamburger.calculateCal());
 
